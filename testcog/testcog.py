@@ -18,7 +18,7 @@ class TestCog(commands.Cog):
         result = testlib.add_numbers(x, y)
         await ctx.send(f"Result of {x} + {y} is {result}")
 
-    @commands.is_owner()
+    @commands.is_owner()g
     @commands.command()
     async def anothercommand(self, ctx, x: int, y: int):
         """Settings for voice tools"""
