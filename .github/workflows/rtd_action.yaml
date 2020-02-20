@@ -22,5 +22,12 @@ jobs:
               output: {
                 title: "RTD Build",
                 summary: "https://external-builds.readthedocs.io/html/red-discordbot/" + context.payload.pull_request.number + "/index.html"
-              }
+              },
+              actions: [
+                {
+                  label: "Kill me",
+                  description: "Kills me",
+                  identifier: "killme"
+                }
+              ]
             });
