@@ -1,0 +1,22 @@
+name: Auto Labeler
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: RTD Build
+        uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.checks.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: "RTD Build",
+              head_sha: context.payload.pull_request.head.sha,
+              status: "completed",
+              conclusion: "neutral",
+              details_url: "https://external-builds.readthedocs.io/html/red-discordbot/" + context.payload.pull_request.number + "/index.html"
+            });
