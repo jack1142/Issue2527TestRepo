@@ -1,0 +1,26 @@
+name: Changelog PR Labeler
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  build:
+    if: github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply Changelog Label
+        uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const is_changelog_label = (label) => label.name.startsWith('Changelog Entry: ');
+            console.log(context.payload.issue.labels);
+            if (context.payload.issue.labels.some(is_changelog_label)) {
+                return;
+            }
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Changelog Entry: Pending']
+            });
