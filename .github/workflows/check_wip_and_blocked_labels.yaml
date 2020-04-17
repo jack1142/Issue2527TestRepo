@@ -1,24 +1,22 @@
 name: Check PR for WIP and Blocked labels
 on:
   pull_request:
-    types: [synchronize, labeled, unlabeled]
+    types: [opened, edited, labeled, unlabeled]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: "Install action's requirements"
-        run: npm install
-        working-directory: ./.github/actions/check_wip_and_blocked_labels
-      - name: Check PR for WIP and Blocked labels
-        uses: ./.github/actions/check_wip_and_blocked_labels
+      - uses: actions/github-script@0.4.0
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const is_blocked_label = (label) => label.name.startsWith('Blocked');
+            const is_wip_label = (label) => label.name == 'Work In Progress';
+            if (context.payload.pull_request.labels.some(is_blocked_label)) {
+                throw 'PR has a Blocked label. DO NOT MERGE.';
+            }
+            if (context.payload.pull_request.labels.some(is_wip_label)) {
+                throw 'PR has a WIP label. DO NOT MERGE.';
+            }
+            console.log('No Blocked/WIP labels.');
