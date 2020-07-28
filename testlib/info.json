@@ -3,7 +3,7 @@
     "author": ["jack1142"],
     "short": "Some dummy lib for Downloader testing.",
     "description": "Some dummy lib for Downloader testing.",
-    "install_msg": "Thanks for installing TestLib.",
+    "install_msg": "Thanks for instsdasdfalling TestLib.",
     "requirements": ["numpy"],
     "tags": ["tools"],
     "disabled": false,
