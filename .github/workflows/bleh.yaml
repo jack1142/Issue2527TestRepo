@@ -27,6 +27,8 @@ jobs:
       uses: actions/github-script@v3
       with:
         script: |
+          console.log('Number: ${{ steps.cpr.outputs.pull-request-number }}');
+          console.log('Operation: ${{ steps.cpr.outputs.pull-request-operation }}');
           let sleep_time = 0;
           for (const new_state of ['closed', 'open']) {
             console.log(new_state);
