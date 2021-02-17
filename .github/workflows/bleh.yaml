@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Generate source files
       run: |
-        echo "tests" > somefile
+        touch somefile
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v3
