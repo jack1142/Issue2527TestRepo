@@ -28,11 +28,16 @@ jobs:
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
+          let sleep_time = 0;
           for (const new_state of ['closed', 'open']) {
+            console.log(new_state);
+            if (sleep_time)
+              await new Promise(r => setTimeout(r, sleep_time));
             github.issues.update({
               issue_number: ${{ steps.cpr.outputs.pull-request-number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: new_state
             });
+            sleep_time = 2000;
           }
