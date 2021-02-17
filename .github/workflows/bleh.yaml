@@ -26,7 +26,7 @@ jobs:
     - name: Try to trick GitHub
       uses: actions/github-script@v3
       with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
+        github-token: ${{secrets.YOUR_SECRET_NAME}}
         script: |
           let sleep_time = 0;
           for (const new_state of ['closed', 'open']) {
