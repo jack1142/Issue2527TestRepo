@@ -1,13 +1,6 @@
-name: Publish to Crowdin
+name: Bleh
 on:
-  schedule:
-    - cron: '0 12 * * THU'
-  repository_dispatch:
-    types: crowdin
-
-env:
-  CROWDIN_API_KEY: ${{ secrets.crowdin_token}}
-  CROWDIN_PROJECT_ID: ${{ secrets.crowdin_identifier }}
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -18,13 +11,28 @@ jobs:
       run: |
         touch somefile
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v2
+      id: cpr
+      uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: Automated Crowdin downstream
-        title: "[i18n] Automated Crowdin downstream"
+        commit-message: Cool auto PR
+        title: "Cool auto PR"
         body: |
           This is an automated PR.
-          Please ensure that there are no errors or invalid files are in the PR.
-        labels: "Automated PR, Category: i18n"
-        branch: "automated/i18n"
+          Please ensure that there are no errors or invalid files in the PR.
+        labels: "Automated PR"
+        branch: "automated/some_cool_branch"
+        author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+    - name: Try to trick GitHub
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          for (const new_state of ['closed', 'open']) {
+            github.issues.update({
+              issue_number: ${{ steps.cpr.outputs.pull-request-number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: new_state
+            });
+          }
