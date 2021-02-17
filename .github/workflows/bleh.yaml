@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Generate source files
       run: |
-        echo "aaa" > somefile
+        touch somefile
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v3
@@ -26,7 +26,6 @@ jobs:
     - name: Try to trick GitHub
       uses: actions/github-script@v3
       with:
-        github-token: ${{secrets.YOUR_SECRET_NAME}}
         script: |
           let sleep_time = 0;
           for (const new_state of ['closed', 'open']) {
