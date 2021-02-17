@@ -35,7 +35,7 @@ jobs:
             if (sleep_time)
               await new Promise(r => setTimeout(r, sleep_time));
             github.issues.update({
-              issue_number: ${{ steps.cpr.outputs.pull-request-number }},
+              issue_number: '${{ steps.cpr.outputs.pull-request-number }}',
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: new_state
