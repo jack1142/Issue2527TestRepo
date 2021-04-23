@@ -1,5 +1,5 @@
 name: Changelog check
-on: [pull_request]
+o: [pull_request]
 
 jobs:
   changelog_check:
